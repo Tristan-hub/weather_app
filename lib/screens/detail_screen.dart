@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather.dart';
+import 'package:intl/intl.dart';
 
 class DetailScreen extends StatelessWidget {
   final Weather weather;
@@ -74,35 +75,33 @@ class DetailScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Mercredi',
+          DateFormat('EEEE', 'fr_FR').format(DateTime.now()),
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: weather.hourlyTemperatures.map((temp) {
+            children: List.generate(weather.hourlyTemperatures.length, (index) {
+              final time = DateFormat('HH:mm').format(DateTime.parse(weather.hourlyTimes[index]));
+              final temp = weather.hourlyTemperatures[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Column(
                   children: [
-                    Text(
-                      '20°',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    Text(time, style: TextStyle(fontSize: 16)), 
+                    SizedBox(height: 5),
                     Icon(
                       Icons.wb_sunny,
                       color: Colors.orange,
                       size: 30,
                     ),
-                    Text(
-                      '${temp}°',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    SizedBox(height: 5),
+                    Text('${temp}°', style: TextStyle(fontSize: 16)), 
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ),
         ),
       ],
@@ -112,11 +111,9 @@ class DetailScreen extends StatelessWidget {
   Widget _buildDailyForecast() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildDailyForecastRow('Vendredi', weather.dailyForecasts[0]),
-        _buildDailyForecastRow('Samedi', weather.dailyForecasts[1]),
-        _buildDailyForecastRow('Dimanche', weather.dailyForecasts[2]),
-      ],
+      children: weather.dailyForecasts.map((forecast) {
+        return _buildDailyForecastRow(forecast.day, forecast);
+      }).toList(),
     );
   }
 

@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/bloc/weather_bloc.dart';
 import 'package:weather_app/repository/weather_repository.dart';
 import 'package:weather_app/screens/search_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting('fr_FR', null).then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
