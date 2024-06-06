@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:intl/intl.dart';
 
@@ -48,21 +49,31 @@ class DetailScreen extends StatelessWidget {
               children: [
                 Text(
                   '${weather.temperature}°',
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: 40, color: Colors.purple),
                 ),
                 Spacer(),
-                Icon(
-                  Icons.wb_sunny,
-                  color: Colors.orange,
-                  size: 50,
+                SvgPicture.asset(
+                  'assets/icons/sunlight.svg',
+                  color: Colors.purple,
+                  width: 50,
+                  height: 50,
                 ),
               ],
             ),
             SizedBox(height: 10),
-            Text(
-              'Aujourd\'hui, le temps est ${weather.description}. '
-              'Il y aura une minimale de ${weather.dailyForecasts[0].minTemp}°C et un maximum de ${weather.dailyForecasts[0].maxTemp}°C.',
-              style: TextStyle(fontSize: 16),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16, color: Colors.black),
+                children: [
+                  TextSpan(text: 'Aujourd\'hui, le temps est '),
+                  TextSpan(text: weather.description, style: TextStyle(color: Colors.purple)),
+                  TextSpan(text: '. Il y aura une minimale de '),
+                  TextSpan(text: '${weather.dailyForecasts[0].minTemp}°C', style: TextStyle(color: Colors.purple)),
+                  TextSpan(text: ' et un maximum de '),
+                  TextSpan(text: '${weather.dailyForecasts[0].maxTemp}°C', style: TextStyle(color: Colors.purple)),
+                  TextSpan(text: '.'),
+                ],
+              ),
             ),
           ],
         ),
@@ -75,7 +86,7 @@ class DetailScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          DateFormat('EEEE', 'fr_FR').format(DateTime.now()),
+          DateFormat('EEEE', 'fr_FR').format(DateTime.now()), // Affiche le jour actuel en français
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
@@ -89,15 +100,16 @@ class DetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Column(
                   children: [
-                    Text(time, style: TextStyle(fontSize: 16)), 
+                    Text(time, style: TextStyle(fontSize: 16)), // Affiche l'heure en couleur par défaut
                     SizedBox(height: 5),
-                    Icon(
-                      Icons.wb_sunny,
-                      color: Colors.orange,
-                      size: 30,
+                    SvgPicture.asset(
+                      'assets/icons/sunlight.svg',
+                      color: Color.fromARGB(255, 99, 99, 99),
+                      width: 30,
+                      height: 30,
                     ),
                     SizedBox(height: 5),
-                    Text('${temp}°', style: TextStyle(fontSize: 16)), 
+                    Text('${temp}°', style: TextStyle(fontSize: 16, color: Colors.purple)), // Affiche la température en violet
                   ],
                 ),
               );
@@ -126,9 +138,11 @@ class DetailScreen extends StatelessWidget {
           Text(day, style: TextStyle(fontSize: 18)),
           Row(
             children: [
-              Icon(
-                Icons.wb_sunny,
-                color: Colors.orange,
+              SvgPicture.asset(
+                'assets/icons/sunlight.svg',
+                color: Color.fromARGB(255, 99, 99, 99),
+                width: 30,
+                height: 30,
               ),
               SizedBox(width: 10),
               Text('${forecast.minTemp}° ${forecast.maxTemp}°'),
@@ -151,30 +165,30 @@ class DetailScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildInfoColumn('Chances de pluie', '${weather.chanceOfRain}%', Icons.grain),
-            _buildInfoColumn('Taux d\'humidité', '${weather.humidity}%', Icons.water),
+            _buildInfoColumn('Chances de pluie', '${weather.chanceOfRain}%', 'assets/icons/rain-drops-3.svg', Colors.purple),
+            _buildInfoColumn('Taux d\'humidité', '${weather.humidity}%', 'assets/icons/rain.svg', Colors.purple),
           ],
         ),
         SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildInfoColumn('Vent', 'NE ${weather.windSpeed} km/h', Icons.air),
-            _buildInfoColumn('Température ressentie', '${weather.feelsLike}°C', Icons.thermostat),
+            _buildInfoColumn('Vent', 'NE ${weather.windSpeed} km/h', 'assets/icons/windy-1.svg', Colors.purple),
+            _buildInfoColumn('Température ressentie', '${weather.feelsLike}°C', 'assets/icons/direction-1.svg', Colors.purple),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildInfoColumn(String title, String value, IconData icon) {
+  Widget _buildInfoColumn(String title, String value, String iconPath, Color color) {
     return Column(
       children: [
-        Icon(icon, size: 30, color: Colors.black),
+        SvgPicture.asset(iconPath, width: 30, height: 30),
         SizedBox(height: 10),
         Text(title, style: TextStyle(fontSize: 16)),
         SizedBox(height: 5),
-        Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
       ],
     );
   }
