@@ -1,16 +1,3 @@
-# weather_app
+Tristan Heraud, PEI Gr02
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Pour ce projet, l'interface graphique, ainsi que toutes les fonctionnalités, ont été respecté. Le seul point de doute concerne la recherches de ville. Je n'ai pas reussis, et je ne savais pas s'il était nécéssaire de rechercher une ville quelconque. Par conséquent propose uniqument de rechercher une ville patrmis les quatres proposées. Dans le cas où une autre ville est recherchée, un message d'affiche et on peut en chercher une autre.
