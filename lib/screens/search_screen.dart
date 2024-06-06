@@ -6,6 +6,13 @@ import 'package:weather_app/screens/detail_screen.dart';
 class SearchScreen extends StatelessWidget {
   final TextEditingController cityController = TextEditingController();
 
+  final List<String> cities = [
+    'Paris, France',
+    'Berlin, Germany',
+    'New York, USA',
+    'Tokyo, Japan',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +37,28 @@ class SearchScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                BlocProvider.of<WeatherBloc>(context).add(FetchWeather(cityController.text));
+                final city = cityController.text.split(',')[0];
+                if (city.isNotEmpty) {
+                  BlocProvider.of<WeatherBloc>(context).add(FetchWeather(city));
+                }
               },
               child: Text('Rechercher'),
             ),
             SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: cities.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(cities[index]),
+                    onTap: () {
+                      final city = cities[index].split(',')[0];
+                      BlocProvider.of<WeatherBloc>(context).add(FetchWeather(city));
+                    },
+                  );
+                },
+              ),
+            ),
             BlocListener<WeatherBloc, WeatherState>(
               listener: (context, state) {
                 if (state is WeatherLoaded) {
